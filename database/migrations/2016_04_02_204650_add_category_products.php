@@ -13,8 +13,8 @@ class AddCategoryProducts extends Migration
     public function up()
     {
         Schema::table('products', function (Blueprint $table) {
-            $table->boolean("featured");
-            $table->boolean("recommend");
+            $table->enum("featured", ['Não', 'Sim']);
+            $table->enum("recommend", ['Não', 'Sim']);
         });
     }
 
