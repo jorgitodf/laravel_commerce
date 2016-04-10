@@ -26,22 +26,22 @@
             {!! Form::label('featured', 'Destaque:') !!}
             @if ($product->featured == 'Não')
                 {!! Form::radio('featured', 'Não', $product->featured) !!} Não
+                {!! Form::radio('featured', 'Sim') !!} Sim
                 @else
                 {!! Form::radio('featured', 'Sim', $product->featured) !!} Sim
+                {!! Form::radio('featured', 'Não') !!} Não
             @endif
-            {!! Form::radio('featured', 'Não') !!} Não
-            {!! Form::radio('featured', 'Sim') !!} Sim
         </div>
 
         <div class="form-group col-sm-8">
             {!! Form::label('recommend', 'Recomendar:') !!}
             @if ($product->recommend == 'Não')
                 {!! Form::radio('recommend', 'Não', $product->recommend) !!} Não
+                {!! Form::radio('recommend', 'Sim') !!} Sim
             @else
                 {!! Form::radio('recommend', 'Sim', $product->recommend) !!} Sim
+                {!! Form::radio('recommend', 'Não') !!} Não
             @endif
-            {!! Form::radio('recommend', 'Não') !!} Não
-            {!! Form::radio('recommend', 'Sim') !!} Sim
         </div>
 
         <div class="form-group col-sm-8">
