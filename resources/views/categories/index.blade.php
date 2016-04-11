@@ -22,6 +22,7 @@
             </tr>
                 @endforeach
         </table>
+        {!! $categories->render() !!}
         <br/>
         <a href="{{ route('categories.create') }}" class="btn btn-primary">Nova Categoria</a>
     </div>

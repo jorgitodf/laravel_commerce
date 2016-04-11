@@ -8,6 +8,11 @@
         {!! Form::open(['route'=>'products.store']) !!}
 
         <div class="form-group col-sm-8">
+            {!! Form::label('category', 'Categoria:') !!}
+            {!! Form::select('category_id', $categories, null, ['class'=>'form-control']) !!}
+        </div>
+
+        <div class="form-group col-sm-8">
             {!! Form::label('name', 'Nome:') !!}
             {!! Form::text('name', null, ['class'=>'form-control']) !!}
         </div>

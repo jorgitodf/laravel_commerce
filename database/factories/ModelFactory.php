@@ -33,6 +33,7 @@ $factory->define(CodeCommerce\Product::class, function ($faker) {
         'description' => $faker->sentence,
         'price' => $faker->numberBetween($min = 1000, $max = 15000),
         'featured' => $faker->randomElement($array = array ('Sim','Não')),
-        'recommend' => $faker->randomElement($array = array ('Sim','Não'))
+        'recommend' => $faker->randomElement($array = array ('Sim','Não')),
+        'category_id' => $faker->numberBetween(1, 15)
     ];
 });

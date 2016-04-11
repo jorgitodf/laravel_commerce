@@ -8,6 +8,11 @@
         {!! Form::open(['route'=>['products.update', $product->id], 'method'=>'put']) !!}
 
         <div class="form-group col-sm-8">
+            {!! Form::label('category', 'Categoria:') !!}
+            {!! Form::select('category_id', $categories, $product->category->id, ['class'=>'form-control']) !!}
+        </div>
+
+        <div class="form-group col-sm-8">
             {!! Form::label('name', 'Nome:') !!}
             {!! Form::text('name', $product->name, ['class'=>'form-control']) !!}
         </div>

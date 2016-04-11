@@ -15,6 +15,8 @@ class AddCategoryProducts extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->enum("featured", ['Não', 'Sim']);
             $table->enum("recommend", ['Não', 'Sim']);
+            $table->integer('category_id')->unsigned()->default(1);
+            $table->foreign('category_id')->references('id')->on('categories');
         });
     }
 
@@ -28,6 +30,8 @@ class AddCategoryProducts extends Migration
         Schema::table('products', function (Blueprint $table) {
             $table->removeColumn("featured");
             $table->removeColumn("recommend");
+            $table->removeColumn('category_id');
         });
     }
+
 }
