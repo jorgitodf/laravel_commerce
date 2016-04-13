@@ -4,7 +4,7 @@ namespace CodeCommerce\Http\Requests;
 
 use CodeCommerce\Http\Requests\Request;
 
-class CategoryRequest extends Request
+class ProductImageRequest extends Request
 {
 
     public function authorize()
@@ -15,16 +15,17 @@ class CategoryRequest extends Request
     public function rules()
     {
         return [
-           'name' => 'required',
-           'description' => 'required'
+            'image' => 'image',
+            'image' => 'required'
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'O campo Nome é obrigatório',
-            'description.required' => 'O campo Descrição é obrigatório'
+            'image.image' => 'O arquivo deve ser uma Imagem',
+            'image.required' => 'Você deve selecionar uma Imagem'
         ];
     }
+
 }

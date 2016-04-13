@@ -25,6 +25,7 @@
                 <td>{{ $product->recommend }}</td>
                 <td>{{ $product->category->name }}</td>
                 <td><a href="{{ route('products.edit', ['id'=>$product->id]) }}">Alterar</a> |
+                    <a href="{{ route('products.images', ['id'=>$product->id]) }}">Imagens</a> |
                     <a href="{{ route('products.destroy', ['id'=>$product->id]) }}">Excluir</a>
                 </td>
             </tr>

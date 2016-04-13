@@ -33,7 +33,9 @@
 
 			<div class="collapse navbar-collapse" id="navbar">
 				<ul class="nav navbar-nav">
-					<li><a href="{{ url('/') }}">Welcome</a></li>
+					<li><a href="{{ url('/') }}">Home</a></li>
+					<li><a href="{{ route('categories') }}">Categorias</a></li>
+					<li><a href="{{ route('products') }}">Produtos</a></li>
 				</ul>
 
 				<ul class="nav navbar-nav navbar-right">
