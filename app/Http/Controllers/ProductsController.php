@@ -6,6 +6,7 @@ use CodeCommerce\Category;
 use CodeCommerce\Http\Requests;
 use CodeCommerce\Product;
 use CodeCommerce\ProductImage;
+use CodeCommerce\Tag;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
@@ -34,8 +35,10 @@ class ProductsController extends Controller
     public function store(Requests\ProductRequest $request)
     {
         $input = $request->all();
+        $arrayTags = $this->tagToArray($input['tags']);
         $products = $this->productModel->fill($input);
         $products->save();
+        $products->tags()->sync($arrayTags);
         return redirect('admin/products');
     }
 
@@ -43,6 +46,7 @@ class ProductsController extends Controller
     {
         $categories = $category->lists('name', 'id');
         $product = $this->productModel->find($id);
+        $product->tags = $product->tag_list;
         return view('products.edit', compact('product', 'categories'));
     }
 
@@ -51,8 +55,23 @@ class ProductsController extends Controller
         $input = $request->all();
         $input['featured'] = $request->get('featured') ? true : false;
         $input['recommend'] = $request->get('recommend') ? true : false;
-        $this->productModel->find($id)->update($request->all());
+        $arrayTags = $this->tagToArray($input['tags']);
+        $this->productModel->find($id)->update($input);
+        $product = Product::find($id);
+        $product->tags()->sync($arrayTags);
         return redirect('admin/products');
+    }
+
+    private function tagToArray($tags)
+    {
+        $tags = explode(",", $tags);
+        $tags = array_map('trim', $tags);
+        $tagCollection = [];
+        foreach ($tags as $tag) {
+            $t = Tag::firstOrCreate(['name' => $tag]);
+            array_push($tagCollection, $t->id);
+        }
+        return $tagCollection;
     }
 
     public function destroy($id)

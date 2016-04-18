@@ -40,7 +40,13 @@
         </div>
 
         <div class="form-group col-sm-8">
+            {!! Form::label('tags', 'Tags:') !!}
+            {!! Form::textarea('tags', null, ['class'=>'form-control']) !!}
+        </div>
+
+        <div class="form-group col-sm-8">
             {!! Form::submit('Criar Produto', ['class'=>'btn btn-primary']) !!}
+            <a href="{{ route('products') }}" class='btn btn-default '>Voltar</a>
         </div>
 
         {!! Form::close() !!}
