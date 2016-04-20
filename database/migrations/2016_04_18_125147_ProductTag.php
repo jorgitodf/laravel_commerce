@@ -13,9 +13,15 @@ class ProductTag extends Migration
     public function up()
     {
         Schema::create('product_tag', function (Blueprint $table) {
+<<<<<<< HEAD
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
             $table->integer('tag_id')->unsigned();
+=======
+            $table->integer('product_id');
+            $table->foreign('product_id')->references('id')->on('products');
+            $table->integer('tag_id');
+>>>>>>> b004c0faa23328a95c4b8b8ff0ca86cb3084aafd
             $table->foreign('tag_id')->references('id')->on('tags');
         });
     }
