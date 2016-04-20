@@ -5,7 +5,7 @@
         <h1>Edição de Produto: {{ $product->name }}</h1>
         <br/>
 
-        {!! Form::open(['route'=>['products.update', $product->id], 'method'=>'put']) !!}
+        {!! Form::model($product, ['route'=>['products.update', $product->id], 'method' => 'put']) !!}
 
         <div class="form-group col-sm-8">
             {!! Form::label('category', 'Categoria:') !!}
@@ -50,7 +50,13 @@
         </div>
 
         <div class="form-group col-sm-8">
+            {!! Form::label('tags', 'Tags:') !!}
+            {!! Form::textarea('tags', null, ['class'=>'form-control']) !!}
+        </div>
+
+        <div class="form-group col-sm-8">
             {!! Form::submit('Salvar Produto', ['class'=>'btn btn-primary']) !!}
+            <a href="{{ route('products') }}" class='btn btn-default '>Voltar</a>
         </div>
 
         {!! Form::close() !!}
