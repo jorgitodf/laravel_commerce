@@ -12,7 +12,7 @@ class ProductTag extends Migration
      */
     public function up()
     {
-        Schema::create('products_tags', function (Blueprint $table) {
+        Schema::create('product_tag', function (Blueprint $table) {
             $table->integer('product_id')->unsigned();
             $table->foreign('product_id')->references('id')->on('products');
             $table->integer('tag_id')->unsigned();
@@ -28,6 +28,6 @@ class ProductTag extends Migration
      */
     public function down()
     {
-        Schema::drop('products_tags');
+        Schema::drop('product_tag');
     }
 }
