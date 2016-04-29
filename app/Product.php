@@ -35,5 +35,20 @@ class Product extends Model
         $tags = $this->tags->lists('name')->toArray();
         return implode(', ', $tags);
     }
+
+    public function scopeFeatured($query)
+    {
+        return $query->where('featured', '=', 'Sim');
+    }
+
+    public function scopeRecommend($query)
+    {
+        return $query->where('recommend', '=', 'Sim');
+    }
+
+    public function scopeProductCategory($query, $id)
+    {
+        return $query->where('category_id', '=', $id);
+    }
     
 }

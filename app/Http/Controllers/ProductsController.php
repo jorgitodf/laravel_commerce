@@ -53,8 +53,6 @@ class ProductsController extends Controller
     public function update(Requests\ProductRequest $request, $id)
     {
         $input = $request->all();
-        $input['featured'] = $request->get('featured') ? true : false;
-        $input['recommend'] = $request->get('recommend') ? true : false;
         $arrayTags = $this->tagToArray($input['tags']);
         $this->productModel->find($id)->update($input);
         $product = Product::find($id);
@@ -111,4 +109,6 @@ class ProductsController extends Controller
         $image->delete();
         return redirect()->route('products.images', ['id'=>$product->id]);
     }
+
+
 }

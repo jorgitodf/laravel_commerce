@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'StoreController@index');
+Route::get('/products.show/{id}', 'StoreController@show');
 
 Route::group(['prefix'=>'admin', 'where'=> ['id'=> '[0-9]+']], function()
 {
@@ -23,7 +24,6 @@ Route::group(['prefix'=>'admin', 'where'=> ['id'=> '[0-9]+']], function()
                 Route::get('{id}/destroy', ['as'=>'categories.destroy', 'uses'=>'CategoriesController@destroy']);
                 Route::get('{id}/edit', ['as'=>'categories.edit', 'uses'=>'CategoriesController@edit']);
                 Route::put('{id}/update', ['as'=>'categories.update', 'uses'=>'CategoriesController@update']);
-
         });
 
         Route::group(['prefix'=>'products'], function() {

@@ -51,4 +51,6 @@ class CategoriesController extends Controller
         return redirect('admin/categories');
     }
 
+
+
 }
