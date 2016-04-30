@@ -12,7 +12,7 @@
 */
 
 Route::get('/', 'StoreController@index');
-Route::get('/products.show/{id}', 'StoreController@show');
+Route::get('/category/{id}', ['as' => 'store.category', 'uses' => 'StoreController@category']);
 
 Route::group(['prefix'=>'admin', 'where'=> ['id'=> '[0-9]+']], function()
 {

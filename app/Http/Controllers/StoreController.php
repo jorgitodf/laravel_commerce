@@ -27,11 +27,12 @@ class StoreController extends Controller
         return view('store.index', compact('categories', 'pFeatured', 'pRecommend'));
     }
 
-    public function show($id)
+    public function category($id)
     {
-        $productCategory = Product::ProductCategory($id)->get();
-        //$productCategory = $this->productModel->where('category_id', '=', $id)->get();
-        echo $productCategory;
+        $categories = $this->categoryModel->all();
+        $category = $this->categoryModel->find($id);
+        $productCategory = $this->productModel->ProductCategory($id)->get();
+        return view('store.category', compact('productCategory', 'categories', 'category'));
     }
     
     public function create()
