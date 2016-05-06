@@ -22,4 +22,5 @@ class Tag extends Model
         return $this->create($tagArray);
     }
 
+
 }

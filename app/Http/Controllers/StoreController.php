@@ -7,16 +7,19 @@ use CodeCommerce\Http\Requests;
 use CodeCommerce\Http\Controllers\Controller;
 use CodeCommerce\Category;
 use CodeCommerce\Product;
+use CodeCommerce\Tag;
 
 class StoreController extends Controller
 {
     private $categoryModel;
     private $productModel;
+    private $tagModel;
 
-    public function __construct(Category $categoryModel, Product $productModel)
+    public function __construct(Category $categoryModel, Product $productModel, Tag $tagModel)
     {
         $this->categoryModel = $categoryModel;
         $this->productModel = $productModel;
+        $this->tagModel = $tagModel;
     }
 
     public function index()
@@ -31,32 +34,23 @@ class StoreController extends Controller
     {
         $categories = $this->categoryModel->all();
         $category = $this->categoryModel->find($id);
-        $productCategory = $this->productModel->ProductCategory($id)->get();
+        $productCategory = $this->productModel->OfCategory($id)->get();
         return view('store.category', compact('productCategory', 'categories', 'category'));
     }
-    
-    public function create()
-    {
 
+    public function product($id)
+    {
+        $categories = $this->categoryModel->all();
+        $product = $this->productModel->find($id);
+        return view('store.product', compact('categories', 'product'));
     }
 
-    public function store(Request $request)
+    public function tag($id)
     {
-
+        $categories = $this->categoryModel->all();
+        $tag = $this->tagModel->find($id);
+        $products = $tag->products;
+        return view('store.tag', compact('categories', 'products', 'tag'));
     }
 
-    public function edit($id)
-    {
-
-    }
-
-    public function update(Request $request, $id)
-    {
-
-    }
-
-    public function destroy($id)
-    {
-
-    }
 }
