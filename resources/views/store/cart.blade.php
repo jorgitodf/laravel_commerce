@@ -23,24 +23,26 @@
                                     Imagem
                                 </a>
                             </td>
-                            
                             <td class="cart_description">
-                                <h4><a href="#">{{ $item['name'] }}</a> </h4>
+                                <h4><a href="{{ route('store.product', ['id'=>$cod]) }}">{{ $item['name'] }}</a> </h4>
                                 <p>Código: {{ $cod }}</p>
                             </td>
-                            
                             <td class="cart_price">
                                 R$ {{ number_format($item['price'], 2, ',', '.') }}
                             </td>
-                            
                             <td class="cart_quantity">
-                                {{ $item['qtd'] }}
+                                {!! Form::open(['route'=>['cart.update', $cod], 'method'=>'put']) !!}
+                                <div class="input-group" style="width: 120px">
+                                    {!! Form::text('qtd', $item['qtd'], ['class'=>'form-control']) !!}
+                                    <span class="input-group-btn">
+                                        {!! Form::submit('Alterar', ['class'=>'btn btn-default']) !!}
+                                      </span>
+                                </div><!-- /input-group -->
+                                {!! Form::close() !!}
                             </td>
-
                             <td class="cart_total">
                                 <p class="cart_total_price"> R$ {{ $item['price'] * $item['qtd'] }}</p>
                             </td>
-                            
                             <td class="cart_delete">
                                 <a href="{{ route('cart.destroy', ['id'=>$cod]) }}" class="cart_quantity_button">Delete</a>
                             </td>
@@ -58,8 +60,8 @@
                     <tr class="cart_menu">
                         <td colspan="6">
                             <div class="pull-right">
-                                <span style="margin-right: 40px">
-                                    TOTAL: R$ {{ $cart->getTotal() }}
+                                <span style="margin-right: 80px">
+                                    TOTAL: R$ {{ number_format($cart->getTotal(), 2, ',', '.') }}
                                 </span>
 
                                 <a href="#" class="btn btn-success">Fechar a conta</a>

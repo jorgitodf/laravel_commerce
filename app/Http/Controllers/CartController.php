@@ -30,7 +30,7 @@ class CartController extends Controller
     {
         $cart = $this->getCart();
         $product = $this->productModel->find($id);
-        $cart->add($id, $product->name, $product->price);
+        $cart->add($product);
         Session::set('cart', $cart);
         return redirect()->route('cart');
     }
@@ -43,6 +43,16 @@ class CartController extends Controller
         return redirect()->route('cart');
     }
 
+    private function getCart()
+    {
+        if (Session::has('cart')) {
+            $cart = Session::get('cart');
+        } else {
+            $cart = $this->cart;
+        }
+        return $cart;
+    }
+
     public function update(Requests\CartRequest $request, $id)
     {
         $qtd = $request->get("qtd");
@@ -52,13 +62,4 @@ class CartController extends Controller
         return redirect()->route('cart');
     }
 
-    private function getCart()
-    {
-        if (Session::has('cart')) {
-            $cart = $this->getCart();
-        } else {
-            $cart = $this->cart;
-        }
-        return $cart;
-    }
 }
