@@ -9,6 +9,8 @@ Route::get('cart/add/{id}', ['as' => 'cart.add', 'uses' => 'CartController@add']
 Route::get('cart/destroy/{id}', ['as' => 'cart.destroy', 'uses' => 'CartController@destroy']);
 Route::put('cart/update/{id}', ['as' => 'cart.update', 'uses' => 'CartController@update']);
 
+Route::get('checkout/placeorder', ['as' => 'checkout.place', 'uses' => 'CheckoutController@place']);
+
 Route::group(['prefix'=>'admin', 'where'=> ['id'=> '[0-9]+']], function()
 {
         Route::group(['prefix'=>'categories'], function() {
