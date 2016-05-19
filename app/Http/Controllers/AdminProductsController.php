@@ -8,38 +8,109 @@ use CodeCommerce\Http\Controllers\Controller;
 
 class AdminProductsController extends Controller
 {
-    private $products;
+    private $productModel;
 
     public function __construct(Product $product)
     {
-        $this->middleware('guest');
-        $this->products = $product;
+        $this->productModel = $product;
     }
 
-    
     public function index()
     {
-        $products = $this->products->all();
-        return view('product',  compact('products'));
+        $products = $this->productModel->paginate(10);
+        return view('products.index', compact('products'));
     }
 
-    public function create()
+    public function create(Category $category)
     {
-        return "Página de Create referente ao registro de Products";
+        $categories = $category->lists('name', 'id');
+        return view('products.create', compact('categories'));
     }
 
-    public function store()
+    public function store(Requests\ProductRequest $request)
     {
-        return "Método para salvar o registro de Products";
+        $input = $request->all();
+        $arrayTags = $this->tagToArray($input['tags']);
+        $products = $this->productModel->fill($input);
+        $products->save();
+        $products->tags()->sync($arrayTags);
+        return redirect('admin/products');
+    }
+
+    public function show($id)
+    {
+        $product = $this->productModel->find($id);
+
+        return view('products.show', compact('product'));
+    }
+
+    public function edit($id, Category $category)
+    {
+        $product = $this->productModel->find($id);
+        $product->tags = $product->tag_list;
+        $categories = $category->lists('name', 'id');
+        return view('products.edit', compact('product', 'categories'));
+    }
+
+    public function update(Requests\ProductRequest $request, $id)
+    {
+        $input = $request->all();
+        $arrayTags = $this->tagToArray($input['tags']);
+        $this->productModel->find($id)->update($input);
+        $product = Product::find($id);
+        $product->tags()->sync($arrayTags);
+        return redirect('admin/products');
+    }
+
+    private function tagToArray($tags)
+    {
+        $tags = explode(",", $tags);
+        $tags = array_map('trim', $tags);
+        $tagCollection = [];
+        foreach ($tags as $tag) {
+            $t = Tag::firstOrCreate(['name' => $tag]);
+            array_push($tagCollection, $t->id);
+        }
+        return $tagCollection;
     }
 
     public function destroy($id)
     {
-        return "Método para apagar o registro de Products";
+        $this->productModel->find($id)->delete();
+        return redirect('admin/products');
     }
 
-    public function edit($id)
+    public function images($id)
     {
-        return "Método para Editar o registro de Products";
+        $product = $this->productModel->find($id);
+        return view('products.images', compact('product'));
     }
+
+    public function createImage($id)
+    {
+        $product = $this->productModel->find($id);
+        return view('products.create_image', compact('product'));
+    }
+
+    public function storeImage(Requests\ProductImageRequest $request, $id, ProductImage $productImage)
+    {
+        $file = $request->file('image');
+        $extension = $file->getClientOriginalExtension();
+        $image = $productImage::create(['product_id'=>$id, 'extension'=>$extension]);
+        Storage::disk('public_local')->put($image->id.'.'.$extension, File::get($file));
+        return redirect()->route('products.images', ['id'=>$id]);
+    }
+
+    public function destroyImage(ProductImage $productImage, $id)
+    {
+        $image = $productImage->find($id);
+        if (file_exists(public_path() . '/uploads/' . $image->id.'.'.$image->extension)) {
+            Storage::disk('public_local')->delete($image->id.'.'.$image->extension);
+        }
+        $product = $image->product;
+        $image->delete();
+        return redirect()->route('admin.products.images', ['id'=>$product->id]);
+    }
+
+
 }

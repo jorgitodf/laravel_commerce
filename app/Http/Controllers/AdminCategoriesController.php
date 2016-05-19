@@ -7,38 +7,48 @@ use CodeCommerce\Http\Requests;
 
 class AdminCategoriesController extends Controller
 {
-    private $categories;
+    private $categoryModel;
 
-    public function __construct(Category $category)
+    public function __construct(Category $categoryModel)
     {
-        $this->middleware('guest');
-        $this->categories = $category;
+        $this->categoryModel = $categoryModel;
     }
-
 
     public function index()
     {
-        $categories = $this->categories->all();
-        return view('category',  compact('categories'));
+        $categories = $this->categoryModel->paginate(10);
+        return view('categories.index', compact('categories'));
     }
 
     public function create()
     {
-        return "Página de Create referente ao registro de Categories";
+        return view('categories.create');
     }
 
-    public function store()
+    public function store(Requests\CategoryRequest $request)
     {
-        return "Método para Salvar o registro de Categories";
+        $input = $request->all();
+        $category = $this->categoryModel->fill($input);
+        $category->save();
+        return redirect('admin/categories');
     }
 
     public function destroy($id)
     {
-        return "Método para Apagar o registro de Categories";
+        $this->categoryModel->find($id)->delete();
+        return redirect('admin/categories');
     }
 
     public function edit($id)
     {
-        return "Método para Editar o registro de Categories";
+        $category = $this->categoryModel->find($id);
+        return view('categories.edit', compact('category'));
     }
+
+    public function update(Requests\CategoryRequest $request, $id)
+    {
+        $this->categoryModel->find($id)->update($request->all());
+        return redirect('admin/categories');
+    }
+
 }
